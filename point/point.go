@@ -41,7 +41,7 @@ func New(sk []byte, ints, floats []string, p lineprotocol.Precision) *Point {
 	}
 
 	for _, f := range floats {
-		n := &lineprotocol.Float{Key: []byte(f)}
+		n := &lineprotocol.Float{Value: 0.2, Key: []byte(f)}
 		e.Floats = append(e.Floats, n)
 		e.fields = append(e.fields, n)
 	}

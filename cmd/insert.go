@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"math/rand"
 	"os"
 	"strings"
 	"sync"
@@ -35,8 +36,9 @@ var (
 )
 
 const (
-	defaultSeriesKey string = "ctr,some=tag"
-	defaultFieldStr  string = "n=0i"
+	defaultSeriesKey string = "ctr,some=ajIpepzFPgntTuLxMYCkbdCJYwfxXZ"
+	defaultSeriesKey1 string = "ctr,some="
+	defaultFieldStr  string = "n=0"
 )
 
 var insertCmd = &cobra.Command{
@@ -46,8 +48,19 @@ var insertCmd = &cobra.Command{
 	Run:   insertRun,
 }
 
+func RandStrStr(length int) string {
+	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	rand.Seed(time.Now().UnixNano()+ int64(rand.Intn(100)))
+	for i := 0; i < length; i++ {
+		result = append(result, bytes[rand.Intn(len(bytes))])
+	}
+	return string(result)
+}
+
 func insertRun(cmd *cobra.Command, args []string) {
-	seriesKey := defaultSeriesKey
+	seriesKey := defaultSeriesKey1 + RandStrStr(20)
 	fieldStr := defaultFieldStr
 	if len(args) >= 1 {
 		seriesKey = args[0]
